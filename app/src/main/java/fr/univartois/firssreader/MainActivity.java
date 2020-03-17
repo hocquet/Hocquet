@@ -116,10 +116,8 @@ public class MainActivity extends AppCompatActivity {
                 }
 
 
-                final ArrayAdapter<RssItem> adapter = new ArrayAdapter<>(
+                final RssItemAdapter adapter = new RssItemAdapter(
                         getApplicationContext(),
-                        android.R.layout.simple_list_item_1,
-                        android.R.id.text1,
                         news );
 
                 runOnUiThread(new Runnable() {
