@@ -1,5 +1,7 @@
 package fr.univartois.firssreader;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -12,6 +14,7 @@ import android.util.Xml;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -42,9 +45,26 @@ public class MainActivity extends AppCompatActivity {
                 Downloader downloader = new Downloader();
                 downloader.start();
 
+
             }
         });
-    }
+
+        ListView listView = findViewById(R.id.list_view);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                RssItem rssItem = (RssItem) adapterView.getItemAtPosition(position);
+
+                Intent intent = new Intent(Intent.ACTION_VIEW,
+                        Uri.parse(rssItem.getLink()));
+                startActivity(intent);
+
+            }
+        });
+
+}
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
