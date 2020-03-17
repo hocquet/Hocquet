@@ -1,0 +1,2 @@
+rootProject.name='FIRssReader'
+include ':app'
