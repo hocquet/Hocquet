@@ -1,5 +1,6 @@
 package fr.univartois.firssreader;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -7,15 +8,19 @@ import android.os.Bundle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.Log;
 import android.util.Xml;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -36,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
+
         FloatingActionButton fab = findViewById(R.id.load_btn);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
 
         ListView listView = findViewById(R.id.list_view);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -62,8 +70,48 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-}
+    }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)
+    {
+
+        switch(keyCode){
+
+            case KeyEvent.KEYCODE_BACK :// faire rien ;
+                Log.i("BTN", "backpressed: System.exit(0)");
+
+
+                new AlertDialog.Builder(this)
+                        .setTitle("Quitter")
+                        .setMessage("Voulez vous vraiment quitter ?")
+                        .setPositiveButton(android.R.string.ok,
+                                new DialogInterface.OnClickListener()
+                                {
+                                    public void onClick(DialogInterface dialog, int which)
+                                    {
+                                        System.exit(0);
+                                    }
+                                })
+                        .setNegativeButton(android.R.string.cancel,
+                                new DialogInterface.OnClickListener()
+                                {
+                                    public void onClick(DialogInterface dialog, int which)
+                                    {
+                                        // AlertDialog.cancel();
+                                    }
+                                })
+                        .create()
+                        .show();
+
+                return true;
+
+
+        }
+
+
+        return false;
+    }
 
 
     @Override
@@ -82,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            startActivity(new Intent(MainActivity.this, Settings.class));
             return true;
         }
 
@@ -149,7 +198,7 @@ public class MainActivity extends AppCompatActivity {
                 });
 
 
-        } catch (IOException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
             catch (XmlPullParserException e) {
